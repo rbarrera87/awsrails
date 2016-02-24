@@ -8,7 +8,7 @@ RUN apt-get install -y libgomp1
 RUN apt-get install -y libquadmath0
 RUN apt-get install -y libc6-dev
 
-RUN apt-get install -y build-essential
+RUN apt-get install -y libmysqlclient-dev
 
 #sudo apt-get install git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev python-software-properties libffi-dev
 
@@ -38,12 +38,21 @@ RUN tar -xzvf ruby-2.3.0.tar.gz &&  cd ruby-2.3.0/ && ./configure && make && mak
 #bundler
 RUN gem install bundler
 
+RUN apt-get install -y nodejs
+
 
 #Cloning repo using http
+ARG CACHEBUST=1
 RUN git clone https://github.com/rbarrera87/awsrails.git
 
 #gems
 RUN cd awsrails/ && bundle install
+
+#commands
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]
+
+WORKDIR /awsrails/
 
 #database
 #RUN bundle exec rake db:create

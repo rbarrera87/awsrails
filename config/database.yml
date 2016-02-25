@@ -10,13 +10,13 @@ default: &default
   encoding: utf8
   reconnect: false
   timeout: 5000
-  host: <%= ENV["DB_HOST"] %>
+  host: <%= ENV["HOSTNAME"] %>
 
 development:
   <<: *default
   database: <%= ENV["DB_DEV"] %>
   username: <%= ENV["DB_DEV_USERNAME"] %>
-  password: <%= ENV["DB_DEV_PASSWORD"] %>
+  password: <%= ENV["MYSQL_RAILS_ENV_MYSQL_ROOT_PASSWORD"] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

@@ -42,17 +42,25 @@ RUN apt-get install -y nodejs
 
 
 #Cloning repo using http
-ARG CACHEBUST=1
-RUN git clone https://github.com/rbarrera87/awsrails.git
+#ARG CACHEBUST=1
+#RUN git clone https://github.com/rbarrera87/awsrails.git
+ENV APP_HOME /webapps/awsrails
+RUN mkdir -p $APP_HOME
+WORKDIR $APP_HOME
+
+COPY Gemfile Gemfile.lock ./
+
 
 #gems
-RUN cd awsrails/ && bundle install
+RUN bundle install
+#check this
+#RUN RAILS_ENV=production bundle exec rake assets:precompile
 
 #commands
 EXPOSE 3000
 CMD ["rails", "server", "-b", "0.0.0.0"]
 
-WORKDIR /awsrails/
+COPY . ./
 
 #database
 #RUN bundle exec rake db:create
